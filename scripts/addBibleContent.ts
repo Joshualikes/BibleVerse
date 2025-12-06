@@ -10,7 +10,8 @@
  * 3. Run the script
  */
 
-import { addSingleChapter, addMultipleChapters } from './sampleChapterContent';
+import { addSingleChapter } from '../data/sampleChapterContent';
+import { addMultipleChapters } from '../utils/bibleContentManager';
 
 /**
  * EXAMPLE 1: Add a single chapter

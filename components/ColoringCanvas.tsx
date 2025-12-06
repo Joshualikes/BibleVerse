@@ -247,6 +247,32 @@ export function ColoringCanvas({
     }
   };
 
+  // Eraser tool logic
+  const handleErase = (x: number, y: number) => {
+    // Remove filled shapes at this location
+    for (let i = 0; i < colorableShapes.length; i++) {
+      if (isPointInShape(x, y, i) && filledShapes.has(i)) {
+        saveState();
+        setFilledShapes(prev => {
+          const newMap = new Map(prev);
+          newMap.delete(i);
+          return newMap;
+        });
+        break;
+      }
+    }
+    // Also remove paths near this location (simplified - removes all paths in production would be more precise)
+    // For now, we'll just add a white path to "erase" visually
+    const erasePathId = generateId();
+    setPaths(prev => [...prev, {
+      path: `M${x},${y}`,
+      color: '#FFFFFF',
+      strokeWidth: brushSize * 2,
+      id: erasePathId,
+      tool: 'eraser'
+    }]);
+  };
+
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
     onMoveShouldSetPanResponder: () => true,
@@ -261,7 +287,7 @@ export function ColoringCanvas({
         handleEyedropper(adjustedX, adjustedY);
       } else if (currentTool === 'eraser') {
         handleErase(adjustedX, adjustedY);
-      } else if (currentTool === 'brush' || currentTool === 'eraser') {
+      } else if (currentTool === 'brush') {
         setCurrentPath(`M${adjustedX},${adjustedY}`);
         saveState();
       }
@@ -278,7 +304,7 @@ export function ColoringCanvas({
         }));
       } else if (currentTool === 'eraser') {
         handleErase(adjustedX, adjustedY);
-      } else if (currentTool === 'brush' || currentTool === 'eraser') {
+      } else if (currentTool === 'brush') {
         setCurrentPath(prev => `${prev} L${adjustedX},${adjustedY}`);
       }
     },
@@ -365,7 +391,16 @@ export function ColoringCanvas({
         Alert.alert('Download Started', `Your ${format} is being prepared for download!`);
       } else {
         if (viewShotRef.current) {
-          const uri = await viewShotRef.current.capture();
+          const capture = viewShotRef.current.capture;
+          if (!capture) {
+            Alert.alert('Error', 'Failed to capture image');
+            return;
+          }
+          const uri = await capture();
+          if (!uri) {
+            Alert.alert('Error', 'Failed to capture image');
+            return;
+          }
           await Sharing.shareAsync(uri, {
             mimeType: format === 'PDF' ? 'application/pdf' : 'image/png',
             dialogTitle: `${title} - Completed Artwork`

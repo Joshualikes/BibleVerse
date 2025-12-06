@@ -31,12 +31,19 @@ import {
 } from 'lucide-react-native';
 import { BibleBook } from '@/types/bible';
 import { Audio } from 'expo-av';
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Supabase is optional - only use if environment variables are set
+let supabase: any = null;
+try {
+  if (process.env.EXPO_PUBLIC_SUPABASE_URL && process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY) {
+    const { createClient } = require('@supabase/supabase-js');
+    supabase = createClient(
+      process.env.EXPO_PUBLIC_SUPABASE_URL,
+      process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY
+    );
+  }
+} catch (error) {
+  console.warn('Supabase not available:', error);
+}
 
 const { width, height } = Dimensions.get('window');
 

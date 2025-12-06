@@ -26,7 +26,7 @@ const progressData = {
   ],
 };
 
-const itemProgress = {};
+const itemProgress: { [key: number]: number } = {};
 
 export function ProgressGrid({ category }: ProgressGridProps) {
   const items = progressData[category as keyof typeof progressData] || [];
