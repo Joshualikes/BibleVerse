@@ -93,7 +93,7 @@ export default function StorytellingScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Image 
-            source={require('@/assets/images/background1.png')}
+            source={require('@/assets/images/UPDAILY.jpg')}
             style={styles.headerImage}
           />
           <View style={styles.headerOverlay}>

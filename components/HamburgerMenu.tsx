@@ -102,7 +102,14 @@ export function HamburgerMenu({
                   },
                 ]}
               >
-             
+                <TouchableOpacity
+                  style={styles.menuButton}
+                  onPress={() => handleOptionPress(onThemes)}
+                  accessibilityLabel="Open themes selection"
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.menuButtonText}>Themes</Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   style={styles.menuButton}

@@ -33,10 +33,10 @@ export default function GalleryScreen() {
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
         {/* Header */}
         <View style={styles.header}>
-         <Image 
-              source={require('@/assets/images/background1.png')}
-              style={styles.headerImage}
-           />
+          <Image 
+            source={{ uri: 'https://images.pexels.com/photos/8553869/pexels-photo-8553869.jpeg' }}
+            style={styles.headerImage}
+          />
           <View style={styles.headerOverlay}>
             <TouchableOpacity style={styles.menuButton} onPress={() => setShowMenu(true)}>
               <Menu color="#FFFFFF" size={24} strokeWidth={2.5} />

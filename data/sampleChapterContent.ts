@@ -9,12 +9,6 @@
  * 2. Run the import script to populate the database
  * 3. The app will automatically fetch this content when users read chapters
  */
-import { createClient } from '@supabase/supabase-js';
-
-const supabaseUrl = 'https://arkujhemtvmfrtrywyea.supabase.co';
-const supabaseKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
-
-export const supabase = createClient(supabaseUrl, supabaseKey);
 
 import { addChapter, addMultipleChapters } from '@/utils/bibleContentManager';
 
